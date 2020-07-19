@@ -1,0 +1,215 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://Textures/Sawblade.png" type="Texture" id=2]
+[ext_resource path="res://Textures/Player.png" type="Texture" id=3]
+[ext_resource path="res://Scripts/Sawblade.gd" type="Script" id=4]
+[ext_resource path="res://Textures/circle.png" type="Texture" id=5]
+[ext_resource path="res://SFX/ImpactStream.tres" type="AudioStream" id=6]
+
+[sub_resource type="Animation" id=21]
+resource_name = "Walk"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 24.0
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 0.757813, 0.757813, 1, 1, 0.94902, 0.6, 0 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.6859 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=5]
+curve = SubResource( 4 )
+
+[sub_resource type="ParticlesMaterial" id=6]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 11.2696
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.75
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
+
+[sub_resource type="CanvasItemMaterial" id=7]
+blend_mode = 1
+
+[sub_resource type="Gradient" id=8]
+colors = PoolColorArray( 1, 1, 1, 1, 0.977051, 0.794868, 0.183197, 1 )
+
+[sub_resource type="GradientTexture" id=9]
+gradient = SubResource( 8 )
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.51288, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 200.0
+angular_velocity = 10.4194
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+damping = 100.0
+scale = 0.05
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
+
+[sub_resource type="Gradient" id=13]
+colors = PoolColorArray( 0.362896, 0.0234985, 0.375977, 1, 0.821289, 0.0673714, 0.407518, 1 )
+
+[sub_resource type="GradientTexture" id=14]
+gradient = SubResource( 13 )
+
+[sub_resource type="Curve" id=15]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -2.62999, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=16]
+curve = SubResource( 15 )
+
+[sub_resource type="ParticlesMaterial" id=17]
+flag_disable_z = true
+spread = 20.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 300.0
+angular_velocity = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+damping = 100.0
+scale = 0.2
+scale_random = 0.25
+scale_curve = SubResource( 16 )
+color_ramp = SubResource( 14 )
+
+[sub_resource type="CircleShape2D" id=18]
+radius = 24.0
+
+[sub_resource type="CircleShape2D" id=19]
+radius = 32.0
+
+[sub_resource type="Animation" id=20]
+length = 0.3
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3 ]
+}
+
+[node name="Player" type="KinematicBody2D" groups=[
+"Player",
+]]
+collision_mask = 4
+script = ExtResource( 1 )
+
+[node name="Sawblade" type="Sprite" parent="."]
+position = Vector2( 24, 18 )
+texture = ExtResource( 2 )
+hframes = 4
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 1.25, 1.25 )
+texture = ExtResource( 3 )
+hframes = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Walk"
+playback_process_mode = 2
+anims/Walk = SubResource( 21 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sawblade Projectile" type="KinematicBody2D" parent="."]
+visible = false
+collision_mask = 4
+script = ExtResource( 4 )
+
+[node name="Particles" type="Node2D" parent="Sawblade Projectile"]
+
+[node name="Trail" type="Particles2D" parent="Sawblade Projectile/Particles"]
+modulate = Color( 1, 1, 1, 0.392157 )
+emitting = false
+amount = 16
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 6 )
+texture = ExtResource( 5 )
+
+[node name="Sparks" type="Particles2D" parent="Sawblade Projectile/Particles"]
+material = SubResource( 7 )
+emitting = false
+amount = 24
+one_shot = true
+explosiveness = 0.9
+randomness = 0.5
+local_coords = false
+process_material = SubResource( 12 )
+texture = ExtResource( 5 )
+
+[node name="Gore" type="Particles2D" parent="Sawblade Projectile/Particles"]
+z_index = 5
+emitting = false
+amount = 64
+lifetime = 1.5
+randomness = 0.5
+local_coords = false
+process_material = SubResource( 17 )
+texture = ExtResource( 5 )
+
+[node name="ImpactPlayer" type="AudioStreamPlayer" parent="Sawblade Projectile"]
+stream = ExtResource( 6 )
+volume_db = -5.0
+
+[node name="Sprite" type="Sprite" parent="Sawblade Projectile"]
+z_index = 5
+texture = ExtResource( 2 )
+hframes = 4
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sawblade Projectile"]
+shape = SubResource( 18 )
+disabled = true
+
+[node name="ImpactRadius" type="Area2D" parent="Sawblade Projectile"]
+editor/display_folded = true
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sawblade Projectile/ImpactRadius"]
+shape = SubResource( 19 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sawblade Projectile"]
+autoplay = "Whir"
+anims/Whir = SubResource( 20 )
+
